@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Appointment</title>
+    <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      text-align: center;
+    }
+
+    .container {
+      margin: 100px auto;
+      max-width: 400px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    form {
+      text-align: left;
+      margin-top: 20px;
+    }
+
+    label {
+      display: block;
+      color: #666;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+
+    select {
+      height: 35px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      resize: none;
+      margin-bottom: 10px;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: #4caf50;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+      
+    }
+
+    .btn:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+    <h1>Schedule a Meeting</h1>
+    
+    <form id="scheduleForm">
+        <label for="Name">Name:</label>
+        <input type="text" id="Name" name="Name" required>
+        <label for="mail">Email ID:</label>
+        <input type="email" id="mail" name="mail" required>
+	
+	<label for="age">Age:</label>
+      	<input type="Number" id="age" name="age" placeholder="Enter your age" required>
+	
+	<label for="gender">Gender:</label>
+	<select name="gender" id="gender">
+		<option value="">Please select one…</option>
+		<option value="male">Male</option>
+		<option value="female">Female</option>
+   		<option value="other">Other</option>
+	</select>
+
+	<label for="phone">Phone:</label>	
+	<input type="text" id="number" pattern="^((\+91[0-9]{10})|(0[0-9]{10}))$" placeholder="Enter Mobile No +91XX......" required>
+
+        <label for="appointmentTime">Appointment Time:</label>
+        <input type="datetime-local" id="appointmentTime" name="appointmentTime" required> <br><br>
+
+        <center><button type="submit" class="btn">Schedule Meeting</button></center>
+    </form>
+</div>
+    <div id="appointmentContainer"></div>
+    
+    <script>
+        document.getElementById('scheduleForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const Name = document.getElementById('Name').value;
+            const mail = document.getElementById('mail').value;
+	    const age = document.getElementById('age').value;
+	    const gender = document.getElementById('gender').value;
+	    const number = document.getElementById('number').value;
+            const appointmentTime = document.getElementById('appointmentTime').value;
+
+            // Generate a unique meeting ID
+            const meetingId = `meeting-${new Date().getTime()}`;
+            const meetingUrl = `https://meet.jit.si/${meetingId}`;
+
+            // Display meeting link
+            const container = document.getElementById('appointmentContainer');
+            container.innerHTML = `
+                <h2>Meeting Scheduled</h2>
+                <p><strong>Name:</strong> ${Name}</p>
+                <p><strong>Your Mail ID:</strong> ${mail}</p>
+		<p><strong>Age:</strong> ${age}</p>
+		<p><strong>Gender:</strong> ${gender}</p>
+		<p><strong>Phone Number:</strong> ${number}</p>
+                <p><strong>Appointment Scheduled Time:</strong> ${new Date(appointmentTime).toLocaleString()}</p>
+                <p><strong>Join Meeting:</strong> <a href="${meetingUrl}" target="_blank">${meetingUrl}</a></p>`;
+
+            // Optionally, send meeting details to participants via email (requires backend support)
+	    sendEmailToParticipants(Name, mail, age, gender, number, appointmentTime, meetingUrl);
+            // Example: sendEmailToParticipants(doctorName, patientName, meetingUrl);
+        });
+    </script>
+</body>
+</html>
