@@ -26,8 +26,8 @@ app.post('/schedule', (req, res) => {
     const transporter = nodemailer.createTransport({
         service: 'Mailo',
         auth: {
-            user: 'equal.society@mailo.com',
-            pass: 'Faridabad@2024',
+            user: '',
+            pass: '',
         },
     });
 
